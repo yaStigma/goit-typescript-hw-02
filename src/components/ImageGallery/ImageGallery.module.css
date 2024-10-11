@@ -1,0 +1,12 @@
+.list {
+  margin: 15px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  list-style: none;
+  padding: 0 10px;
+}
+
+.list__item {
+  cursor: pointer;
+}

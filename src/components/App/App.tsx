@@ -8,7 +8,7 @@ import Loader from "../Loader/Loader"
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn"
 import ImageModal from "../ImageModal/ImageModal"
 import { Image } from '../../type' 
-import axios from 'axios'
+import axios , { AxiosResponse } from 'axios'
 
 
 
@@ -34,7 +34,7 @@ export default function App() {
     try {
       setLoading(true);
       setError(false);
-      const { data } = await axios.get(`https://api.unsplash.com/search/photos`, {
+      const response: AxiosResponse<{ results: Image[] }> = await axios.get(`https://api.unsplash.com/search/photos`, {
         params: {
           page: page,
           query: query,
@@ -45,6 +45,7 @@ export default function App() {
           "Accept-Version": "v1"
         }
       })
+      const data = response.data;
       console.log(data);
       setImages(prevImages => [...prevImages, ...data.results]);
     } catch(err) {

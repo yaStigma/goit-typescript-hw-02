@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
 
 // import css from './App.module.css'
 import SearchBar from "../SearchBar/SearchBar"
@@ -7,21 +7,22 @@ import ErrorMassage from "../ErrorMassage/ErrorMassage"
 import Loader from "../Loader/Loader"
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn"
 import ImageModal from "../ImageModal/ImageModal"
-
+import { Image } from '../../type' 
 import axios from 'axios'
 
 
+
 export default function App() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [query, setQuery] = useState('');
-  const [page, setPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [images, setImages] = useState<Image[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<null | Image>(null);
 
 
-  const handleSubmit = (e, input) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>, input: string): void => {
     e.preventDefault();
     setQuery(input);
     setPage(1);
@@ -29,7 +30,7 @@ export default function App() {
 
       };
 
-  const fetchSearchedImages = async(query, page) => {
+  const fetchSearchedImages = async(query: string, page: number): Promise<void> => {
     try {
       setLoading(true);
       setError(false);
@@ -54,17 +55,17 @@ export default function App() {
     }
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage(prevPage => prevPage + 1);
     
   };
 
-  const openModal = (image) => {
+  const openModal = (image: Image): void => {
     setSelectedImage(image);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setSelectedImage(null);
     setIsModalOpen(false);
   };
